@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AlchAndGags.iml" filepath="$PROJECT_DIR$/AlchAndGags.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bot.iml" filepath="$PROJECT_DIR$/bot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bot.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bot.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bot.test.iml" filepath="$PROJECT_DIR$/.idea/modules/bot.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mini-app/mini-app.iml" filepath="$PROJECT_DIR$/mini-app/mini-app.iml" />
     </modules>
   </component>
 </project>
