@@ -6,6 +6,8 @@ import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.entities.ChatId
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.example.bot.Config
 
 class TelegramBot(
@@ -16,11 +18,15 @@ class TelegramBot(
             token = config.botToken
             dispatch {
                 command("start") {
+                    val message = update.message ?: return@command
                     CommandHandler.handleStart(bot,message,config)
                 }
 
-                command("help") {
-
+                command("miniapp") {
+                    val message = update.message ?: return@command
+                    GlobalScope.launch {
+                        CommandHandler.handleApp(bot, message, config)
+                    }
                 }
             }
         }
