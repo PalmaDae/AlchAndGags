@@ -15,7 +15,7 @@ class TelegramBot(
             token = config.botToken
             dispatch {
                 command("start") {
-                    val result = bot.sendMessage(chatId = ChatId.fromId(message.chat.id), text = "Здарова, долбаёб" + config.miniAppUrl)
+                    val result = bot.sendMessage(chatId = ChatId.fromId(message.chat.id), text = "Здарова, долбаёб " + config.miniAppUrl)
                     result.fold({
 
                     },{
