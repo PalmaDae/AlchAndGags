@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.kotlin-telegram-bot.kotlin-telegram-bot/telegram/6.3.0/12cdb17207b4667e67ed13ca507c5f7f3fa7f10a/telegram-6.3.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.kotlin-telegram-bot.kotlin-telegram-bot/telegram/6.3.0/f7945818a959bcf359b48361338054b37c1402b5/telegram-6.3.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

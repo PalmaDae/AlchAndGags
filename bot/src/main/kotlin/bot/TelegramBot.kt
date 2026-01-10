@@ -1,10 +1,11 @@
 package bot
 
+import bot.handler.CommandHandler
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
+import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.entities.ChatId
-import jdk.internal.joptsimple.internal.Messages.message
 import org.example.bot.Config
 
 class TelegramBot(
@@ -15,12 +16,11 @@ class TelegramBot(
             token = config.botToken
             dispatch {
                 command("start") {
-                    val result = bot.sendMessage(chatId = ChatId.fromId(message.chat.id), text = "Здарова, долбаёб " + config.miniAppUrl)
-                    result.fold({
+                    CommandHandler.handleStart(bot,message,config)
+                }
 
-                    },{
+                command("help") {
 
-                    })
                 }
             }
         }
