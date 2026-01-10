@@ -17,12 +17,13 @@ class TelegramBot(
         val bot = bot {
             token = config.botToken
             dispatch {
-                command("start") {
-                    val message = update.message ?: return@command
-                    CommandHandler.handleStart(bot,message,config)
-                }
+                //Хотим чтобы сообщение было при старте, поэтому убираем старый старт
+//                command("start") {
+//                    val message = update.message ?: return@command
+//                    CommandHandler.handleStart(bot,message,config)
+//                }
 
-                command("miniapp") {
+                command("start") {
                     val message = update.message ?: return@command
                     GlobalScope.launch {
                         CommandHandler.handleApp(bot, message, config)
