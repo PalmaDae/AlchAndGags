@@ -7,10 +7,10 @@ data class Config(
     companion object {
         fun load(): Config {
             return Config(
-                botToken = System.getenv("BOT_TOKEN")
+                botToken = "8527410578:AAFpnkjh_mdXxdid7gFmMNehAfruIAFiRbc"
                     ?: error("Token is not set")
                 ,
-                miniAppUrl = System.getenv("MINI_APP_URL")
+                miniAppUrl = "http://dolbaeb.com"
                     ?: error("MiniAppUrl is not set")
             )
         }
