@@ -1,18 +1,26 @@
-import {Entity} from "./Entity";
+import { Entity } from "./Entity";
 
 export class Uebok implements Entity {
     x: number;
     y: number;
     name: string;
-    img: HTMLImageElement
+    img: HTMLImageElement;
+    text: string;
 
-
-    constructor(x: number, y: number, name: string, imgString: string) {
+    constructor(
+        x: number,
+        y: number,
+        name: string,
+        imgString: string,
+        text: string
+    ) {
         this.x = x;
         this.y = y;
         this.name = name;
-        this.img = new Image();
+        this.text = text;
 
+        this.img = new Image();
+        this.img = new Image();
         this.img.src = imgString;
     }
 
@@ -20,10 +28,12 @@ export class Uebok implements Entity {
         ctx.drawImage(this.img, this.x, this.y);
     }
 
-    talk(words: string[]): void {
-        for (const word of words) {
-            console.log(word)
-        }
+    isHit(mx: number, my: number): boolean {
+        return (
+            mx >= this.x &&
+            mx <= this.x + this.img.width &&
+            my >= this.y &&
+            my <= this.y + this.img.height
+        );
     }
 }
-

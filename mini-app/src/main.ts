@@ -1,26 +1,28 @@
-import {Engine} from "./canvas/engine";
-import {MapScene} from "./scenes/MapScene";
-import {Entity} from "./entities/Entity";
-import {Uebok} from "./entities/Uebok";
+import { Engine } from "./canvas/engine";
+import { MapScene } from "./scenes/MapScene";
+import { Entity } from "./entities/Entity";
+import { Uebok } from "./entities/Uebok";
 
 const app = document.getElementById("app");
-
 const engine = new Engine(app);
 
-const enitites: Entity[] = []
+const entities: Entity[] = [];
 
 const mapImage = new Image();
-
 mapImage.src = "/src/assets/images/map.png";
 
-const map = new MapScene(engine, mapImage, enitites);
+const map = new MapScene(engine, mapImage, entities);
 
-let eblan = new Uebok(100,150,"еблан", "/src/assets/images/avatar1.jpg");
+const eblan = new Uebok(
+    100,
+    150,
+    "Еблан",
+    "/src/assets/images/avatar1.jpg",
+    "Ну чё ты смотришь?"
+);
 
-map.addEntity(eblan)
-
-
+map.addEntity(eblan);
 
 engine.setScene(map);
 
-engine.start()
+engine.start();

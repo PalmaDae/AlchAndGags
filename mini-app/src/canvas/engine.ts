@@ -39,5 +39,9 @@ export class Engine {
         this.height = window.innerHeight;
         this.canvas.width = this.width;
         this.canvas.height = this.height;
+
+        if (this.scene?.resize) {
+            this.scene.resize(this.width, this.height);
+        }
     }
 }
