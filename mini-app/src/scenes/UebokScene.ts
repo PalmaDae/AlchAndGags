@@ -29,22 +29,30 @@ export class UebokScene {
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, this.width, this.height);
 
-        const imgHeight = this.height * 0.3;
-        ctx.drawImage(this.uebok.img, 0, 0, this.width, imgHeight);
+        const size = Math.min(this.width, this.height * 0.3);
+        const imgX = this.width / 2 - size / 2;
+        const imgY = 0;
 
-        // имя
+        ctx.drawImage(this.uebok.img, imgX, imgY, size, size);
+
         ctx.fillStyle = "black";
         ctx.font = "26px Arial";
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
-        ctx.fillText(this.uebok.name, this.width / 2, imgHeight + 10);
+        ctx.fillText(this.uebok.name, this.width / 2, size + 10);
 
-        // сообщение
         ctx.font = "22px Arial";
-        ctx.textBaseline = "middle";
-        ctx.fillText(this.uebok.text, this.width / 2, this.height / 2);
+        ctx.textBaseline = "top";
 
-        // кнопка закрыть
+        this.drawMultilineText(
+            ctx,
+            this.uebok.text,
+            this.width / 2,
+            size + 60,
+            this.width - 40,
+            28
+        );
+
         const btnText = "ЗАКРЫТЬ";
         ctx.font = "20px Arial";
         const metrics = ctx.measureText(btnText);
@@ -55,6 +63,33 @@ export class UebokScene {
         this.closeBtn.y = this.height - 30;
 
         ctx.fillText(btnText, this.width / 2, this.closeBtn.y);
+    }
+
+    private drawMultilineText(
+        ctx: CanvasRenderingContext2D,
+        text: string,
+        x: number,
+        y: number,
+        maxWidth: number,
+        lineHeight: number
+    ) {
+        const words = text.split(" ");
+        let line = "";
+
+        for (let i = 0; i < words.length; i++) {
+            const testLine = line + words[i] + " ";
+            const metrics = ctx.measureText(testLine);
+
+            if (metrics.width > maxWidth && i > 0) {
+                ctx.fillText(line, x, y);
+                line = words[i] + " ";
+                y += lineHeight;
+            } else {
+                line = testLine;
+            }
+        }
+
+        ctx.fillText(line, x, y);
     }
 
     private onClick = (e: MouseEvent) => {
@@ -69,7 +104,6 @@ export class UebokScene {
             y <= this.closeBtn.y
         ) {
             this.engine.canvas.removeEventListener("click", this.onClick);
-
             this.engine.setScene(this.mapScene);
         }
     };

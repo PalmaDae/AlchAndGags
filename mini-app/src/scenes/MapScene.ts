@@ -10,6 +10,9 @@ export class MapScene {
     width: number;
     height: number;
 
+    private entityWidth = 100;
+    private entityHeight = 100;
+
     constructor(engine: Engine, mapImage: HTMLImageElement, entities: Entity[] = []) {
         this.engine = engine;
         this.mapImage = mapImage;
@@ -26,18 +29,25 @@ export class MapScene {
     }
 
     render(ctx: CanvasRenderingContext2D) {
-        //карта
         ctx.drawImage(this.mapImage, 0, 0, this.width, this.height);
 
-        //сущности
-        this.entities.forEach((entity) => {
-            if ("render" in entity) {
-                (entity as any).render(ctx);
-            } else if ("img" in entity) {
-                ctx.drawImage((entity as any).img, (entity as any).x, (entity as any).y);
+        this.entities.forEach((entity: any) => {
+            if ("img" in entity) {
+                ctx.drawImage(
+                    entity.img,
+                    entity.x,
+                    entity.y,
+                    this.entityWidth,
+                    this.entityHeight
+                );
             } else {
                 ctx.fillStyle = "red";
-                ctx.fillRect((entity as any).x, (entity as any).y, 10, 10);
+                ctx.fillRect(
+                    entity.x,
+                    entity.y,
+                    this.entityWidth,
+                    this.entityHeight
+                );
             }
         });
     }
@@ -54,8 +64,16 @@ export class MapScene {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        for (const entity of this.entities) {
-            if ("isHit" in entity && (entity as any).isHit(x, y)) {
+        for (const entity of this.entities as any[]) {
+            const ex = entity.x;
+            const ey = entity.y;
+
+            if (
+                x >= ex &&
+                x <= ex + this.entityWidth &&
+                y >= ey &&
+                y <= ey + this.entityHeight
+            ) {
                 if (entity instanceof Uebok) {
                     const uebokScene = new UebokScene(this.engine, entity, this);
                     this.engine.setScene(uebokScene);
