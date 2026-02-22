@@ -9,30 +9,42 @@ const engine = new Engine(app);
 const entities: Entity[] = [];
 
 const mapImage = new Image();
-mapImage.src = "/src/assets/images/map.jpg";
+mapImage.src = "/src/assets/images/img.png";
 
-const map = new MapScene(engine, mapImage, entities);
+mapImage.onload = () => {
+    const map = new MapScene(engine, mapImage, entities);
 
-const eblan = new Uebok(
-    100,
-    450,
-    "Еблан",
-    "/src/assets/images/avatar5.jpg",
-    "Ну чё ты смотришь?"
-);
+    map.width = window.innerWidth;
+    map.height = window.innerHeight;
+    map.engine.canvas.width = map.width;
+    map.engine.canvas.height = map.height;
 
-const nuts = new Uebok(
-    200,
-    250,
-    "Nuts",
-    "/src/assets/images/nuts.jpg",
-    "Zарегался V MAX❤️🇷🇺 — сначала было немного непривVычно🇷🇺🇷🇺🇷🇺 после телеги, но быстро Vтянулся🇷🇺🤫💪. Интерфейс удобный✅✅✅, Vсё❤️🇷🇺 работает чётко, а главное — SVOя, отечестVенная платформа❤️❤️❤️❤️✅✅✅🙏🙏🙏🇷🇺🇷🇺🇷🇺🇷🇺. Приятно осоZнаVать✅🇺🇸✅🇺🇸✅🇺🇸✅🇺🇸✅🇺🇸, что можно не ZаVисеть от иностранных серVисоV.🇷🇺🇷🇺🇷🇺🇷🇺🇷🇺 СоVетую попробоVать!❤️🙏✅🙏🇷🇺❤️🇷🇺❤️✅⚡️⚡️⚡️⚡️"
-)
+    window.addEventListener("resize", () => {
+        map.width = window.innerWidth;
+        map.height = window.innerHeight;
+        map.engine.canvas.width = map.width;
+        map.engine.canvas.height = map.height;
+    });
 
-map.addEntity(nuts)
+    const eblan = new Uebok(
+        100,
+        450,
+        "Еблан",
+        "/src/assets/images/avatar5.jpg",
+        "Ну чё ты смотришь?"
+    );
 
-map.addEntity(eblan);
+    const nuts = new Uebok(
+        200,
+        250,
+        "Nuts",
+        "/src/assets/images/nuts.jpg",
+        "Zарегался V MAX❤️🇷🇺 — сначала было немного непривVычно🇷🇺🇷🇺🇷🇺 после телеги, но быстро Vтянулся🇷🇺🤫💪. Интерфейс удобный✅✅✅, Vсё❤️🇷🇺 работает чётко, а главное — SVOя, отечестVенная платформа❤️❤️❤️❤️✅✅✅🙏🙏🙏🇷🇺🇷🇺🇷🇺🇷🇺. Приятно осоZнаVать✅🇺🇸✅🇺🇸✅🇺🇸✅🇺🇸✅🇺🇸, что можно не ZаVисеть от иностранных серVисоV.🇷🇺🇷🇺🇷🇺🇷🇺🇷🇺 СоVетую попробоVать!❤️🙏✅🙏🇷🇺❤️🇷🇺❤️✅⚡️⚡️⚡️⚡️"
+    );
 
-engine.setScene(map);
+    map.addEntity(nuts);
+    map.addEntity(eblan);
 
-engine.start();
+    engine.setScene(map);
+    engine.start();
+};
