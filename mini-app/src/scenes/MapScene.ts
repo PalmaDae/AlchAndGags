@@ -6,6 +6,7 @@ import { UebokScene } from "./UebokScene";
 export class MapScene {
     public engine: Engine;
     private mapImage: HTMLImageElement;
+    private background: HTMLImageElement; // фон
     private entities: Entity[] = [];
     width: number;
     height: number;
@@ -25,10 +26,11 @@ export class MapScene {
     private inertiaActive = false;
     private friction = 0.95;
 
-    constructor(engine: Engine, mapImage: HTMLImageElement, entities: Entity[] = []) {
+    constructor(engine: Engine, mapImage: HTMLImageElement, entities: Entity[] = [], background?: HTMLImageElement) {
         this.engine = engine;
         this.mapImage = mapImage;
         this.entities = entities;
+        this.background = background || mapImage;
 
         this.width = window.innerWidth;
         this.height = window.innerHeight;
@@ -56,6 +58,8 @@ export class MapScene {
 
     render(ctx: CanvasRenderingContext2D) {
         ctx.clearRect(0, 0, this.width, this.height);
+
+        ctx.drawImage(this.background, 0, 0, this.width, this.height);
 
         const visibleWidth = this.width / this.scale;
         const visibleHeight = this.height / this.scale;
@@ -124,12 +128,15 @@ export class MapScene {
         const x = (e.clientX - rect.left) / this.scale + this.cameraX;
         const y = (e.clientY - rect.top) / this.scale + this.cameraY;
 
+        const uebokBg = new Image();
+        uebokBg.src = "/src/assets/images/фон тест.png";
+
         for (const entity of this.entities as any[]) {
             const ex = entity.x;
             const ey = entity.y;
             if (x >= ex && x <= ex + this.entityWidth && y >= ey && y <= ey + this.entityHeight) {
                 if (entity instanceof Uebok) {
-                    const uebokScene = new UebokScene(this.engine, entity, this);
+                    const uebokScene = new UebokScene(this.engine, entity, this, uebokBg);
                     this.engine.setScene(uebokScene);
                 }
                 break;
