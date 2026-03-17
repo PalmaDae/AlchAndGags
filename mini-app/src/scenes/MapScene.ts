@@ -20,6 +20,11 @@ export class MapScene {
     private lastTouch: { x: number; y: number } | null = null;
     private lastDistance: number | null = null;
 
+    private velocityX = 0;
+    private velocityY = 0;
+    private inertiaActive = false;
+    private friction = 0.95;
+
     constructor(engine: Engine, mapImage: HTMLImageElement, entities: Entity[] = []) {
         this.engine = engine;
         this.mapImage = mapImage;
@@ -139,6 +144,8 @@ export class MapScene {
     }
 
     private onTouchStart = (e: TouchEvent) => {
+        this.inertiaActive = false;
+
         const rect = this.engine.canvas.getBoundingClientRect();
         if (e.touches.length === 1) {
             const touch = e.touches[0];
@@ -157,26 +164,37 @@ export class MapScene {
             const touch = e.touches[0];
             const x = touch.clientX - rect.left;
             const y = touch.clientY - rect.top;
+
             const dx = x - this.lastTouch.x;
             const dy = y - this.lastTouch.y;
+
             this.moveCamera(dx, dy);
+
+            this.velocityX = dx;
+            this.velocityY = dy;
+
             this.lastTouch = { x, y };
             e.preventDefault();
         } else if (e.touches.length === 2 && this.lastDistance) {
             const newDistance = this.getDistance(e.touches[0], e.touches[1]);
             const delta = newDistance - this.lastDistance;
+
             let factor = 1 + delta / 200;
             factor = Math.max(0.8, Math.min(1.2, factor));
+
             const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
             const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+
             this.zoomAt(factor, centerX, centerY);
             this.lastDistance = newDistance;
+
             e.preventDefault();
         }
     };
 
     private onTouchEnd = (e: TouchEvent) => {
         const rect = this.engine.canvas.getBoundingClientRect();
+
         if (e.touches.length === 1) {
             const touch = e.touches[0];
             this.lastTouch = {
@@ -185,7 +203,31 @@ export class MapScene {
             };
         } else if (e.touches.length === 0) {
             this.lastTouch = null;
+            this.startInertia();
         }
+
         if (e.touches.length < 2) this.lastDistance = null;
     };
+
+    private startInertia() {
+        this.inertiaActive = true;
+
+        const step = () => {
+            if (!this.inertiaActive) return;
+
+            this.velocityX *= this.friction;
+            this.velocityY *= this.friction;
+
+            this.moveCamera(this.velocityX, this.velocityY);
+
+            if (Math.abs(this.velocityX) < 0.1 && Math.abs(this.velocityY) < 0.1) {
+                this.inertiaActive = false;
+                return;
+            }
+
+            requestAnimationFrame(step);
+        };
+
+        requestAnimationFrame(step);
+    }
 }
